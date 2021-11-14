@@ -112,4 +112,13 @@ CREATE TABLE Tutor_availability(
 	occupied BOOLEAN,
 	PRIMARY KEY (tutorID, startTime));
 
-
+/*
+Archive all old Sessions
+*/
+CREATE TABLE Archived_session(
+	sessionID INT PRIMARY KEY,
+	studentID INT,
+	tutorID INT,
+	assignmentID INT,
+	duration INT,
+	startTime DATETIME);
