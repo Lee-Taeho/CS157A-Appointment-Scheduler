@@ -84,16 +84,24 @@ BEGIN
 	SELECT *
 	FROM Tutor
 	WHERE tutorID IN (
-		SELECT tutorID 
+	
+		(SELECT tutorID
+		FROM Tutor_course
+		WHERE courseCode = inCourseCode)
+		
+		UNION
+		
+		(SELECT tutorID 
 		FROM Tutor_language
-		WHERE courseCode = inCourseCode AND language = inLanguage
-	);
+		WHERE language = inLanguage));
+	
+	
 END //
 
-CREATE PROCEDURE Student_request_tutor (IN sessionID INT, IN studentID INT, IN tutorID INT, IN assignmentID INT, IN startTime DATETIME)
+CREATE PROCEDURE Student_request_tutor (IN inStudentID INT, IN inTutorID INT, IN inAssignmentID INT, IN inDuration INT, IN inStartTime DATETIME)
 BEGIN
-	INSERT INTO Session
-	VALUES (sessionID, studentID, tutorID, assingmentID, startTime);
+	INSERT INTO Session (studentID, tutorID, assignmentID, duration, startTime)
+	VALUES (inStudentID, inTutorID, inAssignmentID, inDuration, inStartTime);
 END //
 
 
@@ -104,10 +112,10 @@ BEGIN
 	WHERE studentID = inStudentID;
 END //
 
-CREATE PROCEDURE Student_register (IN inStudentID INT, IN inEmail VARCHAR(50), IN inGrade INT, IN inMajor VARCHAR(20))
+CREATE PROCEDURE Student_register (IN inFirstName VARCHAR(50), IN inLastName VARCHAR(50), IN inEmail VARCHAR(50), IN inGrade INT, IN inMajor VARCHAR(20))
 BEGIN
-	INSERT INTO Student
-	VALUES (inStudentID, inEmail, inGrade, inMajor);
+	INSERT INTO Student (firstName, lastName, email, grade, major)
+	VALUES (inFirstName, inLastName, inEmail, inGrade, inMajor);
 END //
 
 

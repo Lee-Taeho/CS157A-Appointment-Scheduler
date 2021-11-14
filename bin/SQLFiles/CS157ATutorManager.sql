@@ -14,14 +14,13 @@ CREATE TABLE Language(
 DROP TABLE IF EXISTS Course;
 CREATE TABLE Course(
     courseCode VARCHAR(10) PRIMARY KEY,
-    name VARCHAR(50),
-    unit INT);
+    name VARCHAR(50));
 
 /*
 Lists all possible starting time slots the tutoring center offers
 Example: Monday 1pm, Monday 1:30pm, ...
 */
-DROP TABLE IF EXISTS timeSlot;
+DROP TABLE IF EXISTS TimeSlot;
 CREATE TABLE timeSlot(
     startTime DATETIME);
 
@@ -36,34 +35,34 @@ DROP TABLE IF EXISTS Session;
 DROP TABLE IF EXISTS Assignment;
 
 CREATE TABLE Student(
-	studentID INT PRIMARY KEY,
+	studentID INT PRIMARY KEY AUTO_INCREMENT,
 	firstName VARCHAR (50),
 	lastName VARCHAR (50),
-	email VARCHAR(50) UNIQUE CHECK (email LIKE "%@%.edu"),
+	email VARCHAR(50) UNIQUE CHECK (email LIKE "%@%.%"),
 	grade INT,
 	major VARCHAR(20));
 
 CREATE TABLE Tutor(
-	tutorID INT PRIMARY KEY,
+	tutorID INT PRIMARY KEY AUTO_INCREMENT,
 	firstName VARCHAR (50),
 	lastName VARCHAR (50),
-	email VARCHAR(50) UNIQUE CHECK (email LIKE "%@%.edu"));
+	email VARCHAR(50) UNIQUE CHECK (email LIKE "%@%.%"));
+
+CREATE TABLE Assignment(
+	assignmentID INT PRIMARY KEY AUTO_INCREMENT,
+	courseCode VARCHAR(10) REFERENCES Courses(courseCode),
+	studentID INT REFERENCES Student(studentID),
+	dueDate DATETIME,
+	status VARCHAR(20) CHECK (status IN ("complete", "incomplete")), 
+	comments VARCHAR(100));
 
 CREATE TABLE Session(
-	sessionID INT PRIMARY KEY,
+	sessionID INT PRIMARY KEY AUTO_INCREMENT,
 	studentID INT REFERENCES Student(studentID),
 	tutorID INT REFERENCES Tutor(tutorID),
 	assignmentID INT REFERENCES Assignment(assignmentID),
 	duration INT,
 	startTime DATETIME REFERENCES Availability(availabilityID));
-
-CREATE TABLE Assignment(
-	assignmentID INT PRIMARY KEY,
-	courseID INT REFERENCES Courses(courseID),
-	studentID INT REFERENCES Student(studentID),
-	dueDate DATETIME,
-	status VARCHAR(20) CHECK (status IN ("complete", "incomplete")), 
-	comments VARCHAR(100));
 
 
 /*
@@ -110,7 +109,7 @@ DROP TABLE IF EXISTS Tutor_availability;
 CREATE TABLE Tutor_availability(
     tutorID INT REFERENCES Tutor(tutorID),
     startTime DATETIME REFERENCES timeSlot(startTime),
-    PRIMARY KEY (tutorID, startTime),
-	occupied BOOLEAN);
+	occupied BOOLEAN,
+	PRIMARY KEY (tutorID, startTime));
 
 

@@ -90,10 +90,10 @@ BEGIN
 	);
 END //
 
-CREATE PROCEDURE Student_request_tutor (IN sessionID INT, IN studentID INT, IN tutorID INT, IN assignmentID INT, IN startTime DATETIME)
+CREATE PROCEDURE Student_request_tutor (IN studentID INT, IN tutorID INT, IN assignmentID INT, IN startTime DATETIME)
 BEGIN
 	INSERT INTO Session
-	VALUES (sessionID, studentID, tutorID, assingmentID, startTime);
+	VALUES (studentID, tutorID, assingmentID, startTime);
 END //
 
 
@@ -104,10 +104,10 @@ BEGIN
 	WHERE studentID = inStudentID;
 END //
 
-CREATE PROCEDURE Student_register (IN inStudentID INT, IN inEmail VARCHAR(50), IN inGrade INT, IN inMajor VARCHAR(20))
+CREATE PROCEDURE Student_register (IN inFirstName VARCHAR(50), IN inLastName VARCHAR(50), IN inEmail VARCHAR(50), IN inGrade INT, IN inMajor VARCHAR(20))
 BEGIN
-	INSERT INTO Student
-	VALUES (inStudentID, inEmail, inGrade, inMajor);
+	INSERT INTO Student (firstName, lastName, email, grade, major)
+	VALUES (inFirstName, inLastName, inEmail, inGrade, inMajor);
 END //
 
 
