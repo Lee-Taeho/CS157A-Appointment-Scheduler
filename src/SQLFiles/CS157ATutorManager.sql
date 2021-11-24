@@ -67,7 +67,7 @@ CREATE TABLE Session(
 
 /*
 -----------------------------------------
-AUXILLARY TABLES
+AUXILIARY TABLES
 */
 
 /*
@@ -115,6 +115,7 @@ CREATE TABLE Tutor_availability(
 /*
 Archive all old Sessions
 */
+DROP TABLE IF EXISTS Archived_session;
 CREATE TABLE Archived_session(
 	sessionID INT PRIMARY KEY,
 	studentID INT,
