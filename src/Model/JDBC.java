@@ -1,3 +1,4 @@
+package Model;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -19,6 +20,29 @@ public class JDBC {
 	
 	static Scanner sc = new Scanner(System.in);
 
+	public JDBC(){
+		try {
+			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+		}
+
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		finally {
+
+			sc.close();
+
+			try {
+				if (statement != null) statement.close(); }
+			catch (SQLException se) { }
+			try {
+				if (conn != null) conn.close(); }
+			catch (SQLException se) {
+				se.printStackTrace(); }
+
+		}
+	}
 	public static void main(String[] args) {
 
 		try {

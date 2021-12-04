@@ -40,7 +40,7 @@ CREATE TABLE Student(
 	studentID INT PRIMARY KEY AUTO_INCREMENT,
 	firstName VARCHAR (50),
 	lastName VARCHAR (50),
-	email VARCHAR(50) UNIQUE CHECK (email LIKE "%@%.%"),
+    email VARCHAR(50) UNIQUE CHECK (email LIKE '% @ %.edu'),
 	grade INT,
 	major VARCHAR(20)
 );
@@ -49,7 +49,7 @@ CREATE TABLE Tutor(
 	tutorID INT PRIMARY KEY AUTO_INCREMENT,
 	firstName VARCHAR (50),
 	lastName VARCHAR (50),
-	email VARCHAR(50) UNIQUE CHECK (email LIKE "%@%.%")
+    email VARCHAR(50) UNIQUE CHECK (email LIKE '% @ %.edu')
 );
 
 CREATE TABLE Assignment(
@@ -57,7 +57,7 @@ CREATE TABLE Assignment(
 	courseCode VARCHAR(10) REFERENCES Courses(courseCode),
 	studentID INT REFERENCES Student(studentID),
 	dueDate DATETIME,
-	status VARCHAR(20) CHECK (status IN ("complete", "incomplete")),
+    status VARCHAR(20) CHECK (status IN ( 'complete', 'incomplete')),
 	comments VARCHAR(100)
 );
 
