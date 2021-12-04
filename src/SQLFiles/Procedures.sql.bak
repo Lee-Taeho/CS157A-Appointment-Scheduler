@@ -315,7 +315,7 @@ INSERT INTO Tutor_course
 END //
 
 /*
-Count number of tutors that have inCourseCode; Group by Tutors Having the same courses
+Count number of tutors that have courseCode:50873; Group by Tutors Having the same courses
 */
 
 CREATE PROCEDURE TutorManager_num_totors_of_courseCode (IN inCourseCode INT)
