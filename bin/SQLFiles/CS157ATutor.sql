@@ -1,16 +1,18 @@
+DROP TABLE IF EXISTS Tutor;
+
 Create Table Tutor(
-    firstName VARCHAR(50), 
+    firstName VARCHAR(50),
     lastName VARCHAR(50),
     ID INT PRIMARY KEY,
-    email VARCHAR(50) UNIQUE CHECK (email LIKE ‘ % @ %.edu ’)
+    email VARCHAR(50) UNIQUE CHECK (email LIKE '% @ %.edu')
 );
 
-Tutor DROP TABLE IF EXISTS Tutor_course;
+DROP TABLE IF EXISTS Tutor_course;
 
 CREATE TABLE Tutor_course(
-    tutor_ID INT REFERENCES Student(studentID),
+    tutorID INT REFERENCES Student(studentID),
     courseCode VARCHAR(10) REFERENCES Course(courseCode),
-    PRIMARY KEY (studentID, courseID)
+    PRIMARY KEY (tutorID, courseCode)
 );
 
 /*
@@ -33,7 +35,7 @@ DROP TABLE IF EXISTS Tutor_language;
 CREATE TABLE Tutor_language(
     tutorID INT REFERENCES Student(studentID),
     language VARCHAR(20) REFERENCES Language(language),
-    PRIMARY KEY (tutorID, languageID)
+    PRIMARY KEY (tutorID, language)
 );
 
 /*
@@ -43,6 +45,8 @@ DROP TABLE IF EXISTS Language;
 
 CREATE TABLE Language(language VARCHAR(20) PRIMARY KEY);
 
+DROP TABLE IF EXISTS Session;
+
 CREATE TABLE Session(
     sessionID INT PRIMARY KEY,
     studentID INT REFERENCES Student(studentID),
@@ -51,13 +55,14 @@ CREATE TABLE Session(
     duration INT,
     startTime DATETIME REFERENCES Availability(availabilityID)
 );
+DROP TABLE IF EXISTS Assignment;
 
 CREATE TABLE Assignment(
     assignmentID INT PRIMARY KEY,
     courseID INT REFERENCES Courses(courseID),
     studentID INT REFERENCES Student(studentID),
     dueDate DATETIME,
-    status VARCHAR(20) CHECK (status IN (‘ complete ’, ‘ incomplete ’)),
+    status VARCHAR(20) CHECK (status IN ( 'complete', 'incomplete')),
     comments VARCHAR(100)
 );
 

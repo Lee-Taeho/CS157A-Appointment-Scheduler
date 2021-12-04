@@ -7,9 +7,12 @@
 
 DROP PROCEDURE IF EXISTS tutor_summary; /* gives all the information about the tutor including the language, course*/
 DROP PROCEDURE IF EXISTS tutor_list_appointment;
+DROP PROCEDURE IF EXISTS tutor_list_session;
 DROP PROCEDURE IF EXISTS session_summary;
 DROP PROCEDURE IF EXISTS search_appointments;
 DROP PROCEDURE IF EXISTS tutor__drop_session;
+DROP PROCEDURE IF EXISTS total_hours_worked;
+DROP PROCEDURE IF EXISTS tutor_add_course;
 
 DROP PROCEDURE IF EXISTS tutor_add_language;
 DROP PROCEDURE IF EXISTS tutor_add_courses;
@@ -55,10 +58,11 @@ END //
 CREATE PROCEDURE session_summary(IN inSessionID INT)
 BEGIN
     SELECT * FROM Session WHERE sessionID = inSessionID;
-    Select * 
+
+    Select *
     FROM Assingment
     Where assingmentID in 
-    (SELECT assignmentID FROM Session WHERE sessionID = inSessionID)
+    (SELECT assignmentID FROM Session WHERE sessionID = inSessionID);
 END //
 
 CREATE PROCEDURE search_appointments(IN inTutorID INT, IN inStartTime DATETIME, IN inEndTime DATETIME)
@@ -85,14 +89,14 @@ END //
 CREATE PROCEDURE tutor_add_language(IN inTutorID INT, IN inLanguage VARCHAR(20))
 BEGIN
    INSERT INTO Tutor_language
-   VALUES (inTutorID, inLanguage));
+   VALUES (inTutorID, inLanguage);
 END //
 
 
 CREATE PROCEDURE tutor_add_course(IN inTutorID INT, IN inCourseCode INT)
 BEGIN
    INSERT INTO Tutor_course
-   VALUES (inTutorID, inCourseCode));
+   VALUES (inTutorID, inCourseCode);
 END //
 
 
@@ -114,8 +118,8 @@ END //
 CREATE PROCEDURE tutor_drop_session(IN inSessionID INT)
 BEGIN
    DELETE FROM Session
-   WHERE sessionID = inSessionID
-END //;
+   WHERE sessionID = inSessionID;
+END //
 
 
 
