@@ -48,14 +48,16 @@ public class Tutor {
 
 
                         String day1 = "2021-11-19 11:00:00";
-                        String day2= "2021-11-19 11:00:00";
+                        String day2= "2021-11-19 13:00:00";
                         preparedStatement.setInt(1, tutorID);
                         preparedStatement.setString(2,day1 );
                         preparedStatement.setString(3, day2);
                         resultSet = preparedStatement.executeQuery();
 
+
+                        System.out.println("<working schedule for " + day1 +"~"+ day2 +">");
+
                         while (resultSet.next()){
-//                            System.out.println("working schedule for " + day1 +"~"+ day2);
                             int sessionID = resultSet.getInt("sessionID");
                             System.out.println("session: " +  sessionID);
 
@@ -65,6 +67,9 @@ public class Tutor {
                             String duration =  resultSet.getString("duration");
                             System.out.println("duration: " +  duration);
                         }
+
+                        System.out.println("========================================");
+
 
 
                         break;
