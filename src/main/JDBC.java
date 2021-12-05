@@ -12,9 +12,9 @@ import static main.Student.promptStudent;
 
 public class JDBC {
 
-	static final String DB_URL = "jdbc:mysql://localhost:3306/appointmentscheduler?serverTimezone=UTC";
+	static final String DB_URL = "jdbc:mysql://localhost:3306/test?serverTimezone=UTC";
 	static final String USER = "root";
-	static final String PASS = "rootPassword";
+	static final String PASS = "th990307";
 
 	private static Connection conn = null;
 	private static Statement statement = null;
@@ -40,7 +40,7 @@ public class JDBC {
 					break;
 
 				case "tutor":
-					promptTutor();
+					Tutor.promptTutor(conn, sc);
 					break;
 
 				case "manager":

@@ -155,12 +155,13 @@ Tutor Procedures
 -- As a tutor, I want to view all my appointments at once.
 -- As a tutor, I want to modify my qualifications when I learn new skills
 
-DROP PROCEDURE IF EXISTS tutor_summary; /* gives all the information about the tutor including the language, course*/
-DROP PROCEDURE IF EXISTS tutor_list_appointment;
-DROP PROCEDURE IF EXISTS tutor_list_session;
-DROP PROCEDURE IF EXISTS session_summary;
+DROP PROCEDURE IF EXISTS tutor_info; /* gives all the information about the tutor including the language, course*/
+DROP PROCEDURE IF EXISTS tutor_info_languages;
+DROP PROCEDURE IF EXISTS tutor_info_courses;
+DROP PROCEDURE IF EXISTS tutor_list_appointment_summary;
+DROP PROCEDURE IF EXISTS tutor_get_session;
+DROP PROCEDURE IF EXISTS session_assignment;
 DROP PROCEDURE IF EXISTS search_appointments;
-DROP PROCEDURE IF EXISTS tutor__drop_session;
 DROP PROCEDURE IF EXISTS total_hours_worked;
 DROP PROCEDURE IF EXISTS tutor_add_course;
 
@@ -180,24 +181,41 @@ DROP PROCEDURE IF EXISTS tutor_drop_session;
 
 DELIMITER //
 
-CREATE PROCEDURE tutor_summary(IN inTutorID INT)
+CREATE PROCEDURE tutor_info(IN inTutorID INT)
 BEGIN
     SELECT *
     FROM Tutor
     WHERE  inTutorID = tutorID;
+END //
 
+CREATE PROCEDURE tutor_info_languages(IN inTutorID INT)
+BEGIN
     SELECT language
     FROM Tutor_language
     WHERE tutorID = inTutorID;
+END //
 
+CREATE PROCEDURE tutor_info_courses(IN inTutorID INT)
+BEGIN
     SELECT courseCode
     FROM Tutor_course
     WHERE tutorID = inTutorID;
+END //
 
+CREATE PROCEDURE tutor_list_appointment_summary(In inTutorID INT)
+BEGIN
+    Select Tutor.firstName as tfirst, Tutor.lastName as tlast, Student.firstName as sfirst, Student.lastName as slast, sessionID, courseCode, startTime, duration
+    From Tutor
+    Join
+    (SELECT tutorID, Session.studentID ,sessionID, courseCode, startTime, duration
+    FROM Session Join Assignment using(assignmentID)
+    Where Session.tutorID = inTutorID) as sessionSummary using(tutorID)
+    Join
+    Student using (studentID);
 END //
 
 
-CREATE PROCEDURE tutor_list_session(IN inSessionID INT)
+CREATE PROCEDURE tutor_get_session(IN inSessionID INT)
 BEGIN
     SELECT *
     FROM Session
@@ -205,27 +223,27 @@ BEGIN
 END //
 
 
-CREATE PROCEDURE session_summary(IN inSessionID INT)
+CREATE PROCEDURE session_assignment(IN inSessionID INT)
 BEGIN
-    SELECT * FROM Session WHERE sessionID = inSessionID;
+--     SELECT * FROM Session WHERE sessionID = inSessionID;
 
     Select *
     FROM Assingment
-    Where assingmentID in 
+    Where assingmentID in
     (SELECT assignmentID FROM Session WHERE sessionID = inSessionID);
 END //
 
 CREATE PROCEDURE search_appointments(IN inTutorID INT, IN inStartTime DATETIME, IN inEndTime DATETIME)
 BEGIN
-    SELECT sessionID
-    FROM (SELECT startTime, duration FROM Session WHERE tutorID = inTutorID ) AS tutorSession
-    Where inStartTime <= tutorSession.startTime and DATEADD(mi, tutorSession.duration, tutorSession.startTime) <= inEndTime;
+    SELECT sessionID, startTime, duration
+    FROM (SELECT sessionID, startTime, duration FROM Session WHERE tutorID = inTutorID ) AS tutorSession
+    Where inStartTime <= tutorSession.startTime and DATE_ADD(tutorSession.startTime, INTERVAL tutorSession.duration MINUTE) <= inEndTime;
 
 END //
 
-CREATE PROCEDURE total_hours_worked(IN inTutorID INT, OUT timeInhours FLOAT)
+CREATE PROCEDURE total_hours_worked(IN inTutorID INT)
 BEGIN
-    SELECT sum(duration) / 60.0 INTO timeInhours
+    SELECT sum(duration) / 60.0 as total
     FROM Session
     WHERE tutorID = inTutorID;
 END //
@@ -270,10 +288,6 @@ BEGIN
    DELETE FROM Session
    WHERE sessionID = inSessionID;
 END //
-
-
-
-DELIMITER ;
 
 
 /*
