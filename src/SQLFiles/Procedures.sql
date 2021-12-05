@@ -325,7 +325,6 @@ DROP PROCEDURE IF EXISTS TutorManager_update_Status;
 DROP PROCEDURE IF EXISTS TutorManager_add_courses;
 DROP PROCEDURE IF EXISTS TutorManager_num_tutors_of_courseCode;
 
-DELIMITER //
 
 CREATE PROCEDURE TutorManager_update_schedule (IN inTutorID INT, IN inCourse VARCHAR(20))
 BEGIN
