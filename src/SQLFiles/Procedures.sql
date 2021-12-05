@@ -306,7 +306,7 @@ DROP PROCEDURE IF EXISTS TutorManager_update_schedule;
 DROP PROCEDURE IF EXISTS TutorManager_view_schedule;
 DROP PROCEDURE IF EXISTS TutorManager_update_Status;
 DROP PROCEDURE IF EXISTS TutorManager_add_courses;
-DROP PROCEDURE IF EXISTS TutorManager_num_totors_of_courseCode;
+DROP PROCEDURE IF EXISTS TutorManager_num_tutors_of_courseCode;
 
 DELIMITER //
 
@@ -324,7 +324,7 @@ SELECT *
     WHERE studentID = inStudentID AND tutorID= inTutorID;
 END //
 
-CREATE PROCEDURE TutorManager_update_Status (IN inAssignmentID INT, IN inStausID VARCHAR(20))
+CREATE PROCEDURE TutorManager_update_Status (IN inAssignmentID INT, IN inStatus VARCHAR(20))
 BEGIN
 UPDATE Assignment
     SET status = inStatus
@@ -342,12 +342,12 @@ END //
 Count number of tutors that have inCourseCode; Group by Tutors Having the same courses
 */
 
-CREATE PROCEDURE TutorManager_num_totors_of_courseCode (IN inCourseCode INT)
+CREATE PROCEDURE TutorManager_num_tutors_of_courseCode (IN inCourseCode VARCHAR(10))
 BEGIN
-	SELECT TutorID, COUNT(*)
+	SELECT courseCode, COUNT(*) AS num
 	FROM Tutor_Course
-	GROUP BY TutorID
-	HAVING courseCode = inCourseCode;
+    WHERE Tutor_course.courseCode = inCourseCode
+	GROUP BY courseCode;
 END //
 
 DELIMITER ;

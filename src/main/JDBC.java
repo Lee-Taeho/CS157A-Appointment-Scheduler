@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.Scanner;
 
 import static main.Student.promptStudent;
+import static main.TutorManager.promptManager;
 
 public class JDBC {
 
@@ -40,11 +41,11 @@ public class JDBC {
 					break;
 
 				case "tutor":
-					promptTutor();
+					//promptTutor();
 					break;
 
 				case "manager":
-					promptManager();
+					promptManager(conn, sc);
 					break;
 
 				default: System.out.println("Invalid, restart program");
@@ -73,13 +74,6 @@ public class JDBC {
 
 	}
 
-	private static void promptTutor() {
-
-	}
-
-	private static void promptManager() {
-
-	}
 
 	public static void printResultSetFromStudent (ResultSet rs) throws SQLException {
 
@@ -136,5 +130,37 @@ public class JDBC {
 		}
 
 	}
+
+	public static void printResultSetFromAssignment (ResultSet rs) throws SQLException {
+
+		while (rs.next()) {
+
+			int assignmentID = rs.getInt("assignmentID");
+			String courseCode = rs.getString("courseCode");
+			int studentID = rs.getInt("studentID");
+			String dueDate = rs.getString("dueDate");
+			String status = rs.getString("status");
+			String comment = rs.getString("comment");
+
+			System.out.println("assignmentID: " + assignmentID + "| courseCode: " + courseCode + "| studentID: " + studentID
+					+ "| dueDate: " + dueDate + "| status: " + status + "| comment: " + comment);
+
+		}
+
+	}
+
+	public static void printResultSetFromTutorCourse (ResultSet rs) throws SQLException {
+
+		while (rs.next()) {
+
+			String courseCode = rs.getString("courseCode");
+			int num = rs.getInt("num");
+
+			System.out.println("courseCode: " + courseCode + "| count: " + num);
+
+		}
+
+	}
+
 
 }
