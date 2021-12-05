@@ -81,6 +81,26 @@ public class JDBC {
 
 	}
 
+	public static void printResultSetFromStudent (ResultSet rs) throws SQLException {
+
+		while (rs.next()) {
+
+			int studentID = rs.getInt("studentID");
+			String firstName = rs.getString("firstName");
+			String lastName = rs.getString("lastName");
+			String email = rs.getString("email");
+			int grade = rs.getInt("grade");
+			String major = rs.getString("major");
+			String language = rs.getString("language");
+			String courseCode = rs.getString("courseCode");
+
+			System.out.println("studentID: " + studentID + "| name: " + firstName + " " + lastName + "| email: " + email
+					+ "| grade: " + grade + "| major: " + major + "| language: " + language + "| courseCode: " + courseCode);
+
+		}
+
+	}
+
 	public static void printResultSetFromTutor (ResultSet rs) throws SQLException {
 
 		while (rs.next()) {

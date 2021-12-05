@@ -25,6 +25,7 @@ Student Procedures
 */
 
 DROP PROCEDURE IF EXISTS Student_summary;
+DROP PROCEDURE IF EXISTS Student_get_ID;
 DROP PROCEDURE IF EXISTS Student_update_email;
 DROP PROCEDURE IF EXISTS Student_update_grade;
 DROP PROCEDURE IF EXISTS Student_update_major;
@@ -48,7 +49,14 @@ BEGIN
     ON Student.studentID = Student_language.studentID
     LEFT JOIN Student_course
     ON Student.studentID = Student_course.studentID
-    WHERE Student.studentID = inStudentID
+    WHERE Student.studentID = inStudentID;
+END //
+
+CREATE PROCEDURE Student_get_ID(IN inStudentEmail INT)
+BEGIN
+    SELECT Student.studentID
+    FROM Student
+    WHERE inStudentEmail = email;
 END //
 
 CREATE PROCEDURE Student_update_email (IN inStudentID INT, IN inEmail VARCHAR(50))
@@ -283,10 +291,7 @@ BEGIN
    WHERE sessionID = inSessionID;
 END //
 
-
-
 DELIMITER ;
-
 
 /*
 -----------------------------------------
@@ -294,11 +299,14 @@ Tutor Manager Procedures
 */
 
 DROP PROCEDURE IF EXISTS TutorManager_update_schedule;
+DROP PROCEDURE IF EXISTS TutorManager_view_schedule;
 DROP PROCEDURE IF EXISTS TutorManager_update_Status;
 DROP PROCEDURE IF EXISTS TutorManager_add_courses;
 DROP PROCEDURE IF EXISTS TutorManager_num_totors_of_courseCode;
 
-CREATE PROCEDURE TutorManager_update_experience (IN inTutorID INT, IN inCourse VARCHAR(20))
+DELIMITER //
+
+CREATE PROCEDURE TutorManager_update_schedule (IN inTutorID INT, IN inCourse VARCHAR(20))
 BEGIN
 UPDATE Tutor
     SET course = inCourse
