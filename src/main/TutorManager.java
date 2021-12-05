@@ -65,9 +65,9 @@ public class TutorManager {
                     int tutorID2 = Integer.valueOf(sc.nextLine());
                     preparedStatement.setInt(1, tutorID2);
 
-                    System.out.println("CourseID: ");
-                    int courseID = Integer.valueOf(sc.nextLine());
-                    preparedStatement.setInt(2, courseID);
+                    System.out.println("courseCode: ");
+                    String courseCode2 = sc.nextLine();
+                    preparedStatement.setString(2, courseCode2);
 
                     preparedStatement.execute();
                     break;

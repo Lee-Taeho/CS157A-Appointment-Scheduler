@@ -348,10 +348,10 @@ UPDATE Assignment
     WHERE AssignmentID = inAssignmentID;
 END //
 
-CREATE PROCEDURE TutorManager_add_courses (IN inTutorID INT, IN inTutor INT)
+CREATE PROCEDURE TutorManager_add_courses (IN inTutorID INT, IN inCourseCode VARCHAR(10))
 BEGIN
 INSERT INTO Tutor_course
-    VALUES (inTutorID, inTutor);
+    VALUES (inTutorID, inCourseCode);
 
 END //
 
