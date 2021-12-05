@@ -52,7 +52,7 @@ BEGIN
     WHERE Student.studentID = inStudentID;
 END //
 
-CREATE PROCEDURE Student_get_ID(IN inStudentEmail INT)
+CREATE PROCEDURE Student_get_ID(IN inStudentEmail VARCHAR(50))
 BEGIN
     SELECT Student.studentID
     FROM Student
@@ -66,7 +66,7 @@ BEGIN
 	WHERE studentID = inStudentID;
 END //
 
-CREATE PROCEDURE Student_update_grade (IN inStudentID INT, IN inGrade VARCHAR(1))
+CREATE PROCEDURE Student_update_grade (IN inStudentID INT, IN inGrade INT)
 BEGIN
 	UPDATE Student
 	SET grade = inGrade
@@ -80,7 +80,7 @@ BEGIN
 	WHERE studentID = inStudentID;
 END //
 
-CREATE PROCEDURE Student_add_course (IN inStudentID INT, IN inCourse VARCHAR(20))
+CREATE PROCEDURE Student_add_course (IN inStudentID INT, IN inCourse VARCHAR(10))
 BEGIN
 	INSERT INTO Student_course
 	VALUES (inStudentID, inCourse);
@@ -123,9 +123,13 @@ Might delete the previous two procedures in favor of this one
 */
 CREATE PROCEDURE Student_filter_tutors (IN inCourseCode VARCHAR(10), IN inLanguage VARCHAR(20))
 BEGIN
-	SELECT *
+	SELECT Tutor.tutorID, firstName, lastName, email, courseCode, language
 	FROM Tutor
-	WHERE tutorID IN (
+	LEFT JOIN Tutor_language
+    ON Tutor.tutorID = Tutor_language.tutorID
+	LEFT JOIN Tutor_course
+    ON Tutor.tutorID = Tutor_course.tutorID
+	WHERE Tutor.tutorID IN (
 	
 		(SELECT tutorID
 		FROM Tutor_course

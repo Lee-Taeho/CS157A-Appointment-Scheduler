@@ -109,8 +109,11 @@ public class JDBC {
 			String firstName = rs.getString("firstName");
 			String lastName = rs.getString("lastName");
 			String email = rs.getString("email");
+			String courseCode = rs.getString("courseCode");
+			String language = rs.getString("language");
 
-			System.out.println("tutorID: " + tutorID + "| name: " + firstName + " " + lastName + "| email: " + email);
+			System.out.println("tutorID: " + tutorID + "| name: " + firstName + " " + lastName + "| email: " + email
+					+ "| courseCode: " + courseCode + "| language: " + language);
 
 		}
 
