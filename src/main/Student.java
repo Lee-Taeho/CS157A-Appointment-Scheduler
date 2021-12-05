@@ -19,14 +19,15 @@ public class Student {
         while (true) {
 
             System.out.println("Input what you would like to do: ");
-            System.out.println("1 = register, 2 = find tutor, 3 = request tutor, 4 = view upcoming sessions, ? = quit with invalid value");
+            System.out.println("1 = register, 2 = find tutor, 3 = request tutor, 4 = view upcoming sessions");
+            System.out.println("5 = update email, 6 = update grade, 7 = update major, 8 = add course, 9 = add language, ? = type anything to quit");
             int instructionType = Integer.valueOf(sc.nextLine());
             String sql = "";
             statement = conn.createStatement();
 
             switch (instructionType) {
 
-                case 1:
+                case 1: //register
                     sql = "CALL Student_register (?, ?, ?, ?, ?)";
                     preparedStatement = conn.prepareStatement(sql);
 
@@ -53,7 +54,7 @@ public class Student {
                     preparedStatement.execute();
                     break;
 
-                case 2:
+                case 2: //find tutor
                     sql = "CALL Student_filter_tutors (?, ?)";
                     preparedStatement = conn.prepareStatement(sql);
 
@@ -69,7 +70,7 @@ public class Student {
                     printResultSetFromTutor(resultSet);
                     break;
 
-                case 3:
+                case 3: //request tutor
                     sql = "CALL Student_request_tutor (?, ?, ?, ?, ?)";
                     preparedStatement = conn.prepareStatement(sql);
 
@@ -96,7 +97,7 @@ public class Student {
                     preparedStatement.execute();
                     break;
 
-                case 4:
+                case 4: //view upcoming sessions
                     sql = "CALL Student_view_upcoming_sessions (?)";
                     preparedStatement = conn.prepareStatement(sql);
 
@@ -108,7 +109,16 @@ public class Student {
                     printResultSetFromSession(resultSet);
                     break;
 
+                case 5:
+
+                    break;
+
+                case 6:
+                    break;
+
+
                 default:
+                    System.out.println("Quittting...");
                     break outerloop;
 
             }

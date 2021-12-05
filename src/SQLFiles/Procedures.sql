@@ -24,6 +24,7 @@ DELIMITER ;
 Student Procedures
 */
 
+DROP PROCEDURE IF EXISTS Student_summary;
 DROP PROCEDURE IF EXISTS Student_update_email;
 DROP PROCEDURE IF EXISTS Student_update_grade;
 DROP PROCEDURE IF EXISTS Student_update_major;
@@ -38,6 +39,17 @@ DROP PROCEDURE IF EXISTS Student_view_upcoming_sessions;
 DROP PROCEDURE IF EXISTS Student_register;
 
 DELIMITER //
+
+CREATE PROCEDURE Student_summary(IN inStudentID INT)
+BEGIN
+    SELECT *
+    FROM Student
+    LEFT JOIN Student_language
+    ON Student.studentID = Student_language.studentID
+    LEFT JOIN Student_course
+    ON Student.studentID = Student_language.studentID
+    GROUP BY Student.studentID;
+END //
 
 CREATE PROCEDURE Student_update_email (IN inStudentID INT, IN inEmail VARCHAR(50))
 BEGIN
