@@ -42,13 +42,13 @@ DELIMITER //
 
 CREATE PROCEDURE Student_summary(IN inStudentID INT)
 BEGIN
-    SELECT *
+    SELECT Student.studentID, firstName, lastName, email, grade, major, language, courseCode
     FROM Student
     LEFT JOIN Student_language
     ON Student.studentID = Student_language.studentID
     LEFT JOIN Student_course
-    ON Student.studentID = Student_language.studentID
-    GROUP BY Student.studentID;
+    ON Student.studentID = Student_course.studentID
+    WHERE Student.studentID = inStudentID
 END //
 
 CREATE PROCEDURE Student_update_email (IN inStudentID INT, IN inEmail VARCHAR(50))
