@@ -20,6 +20,7 @@ Tutoring appointment system implemented using Java JDBC, MySQL. Applied Boyce-Co
 4. Change the JDBC URL with corresponding format
 > jdbc:mysql://hostname:port/databasename
 5. Run JDBC.main() method.
+6. Read the instruction in Stackoverflow for more detailed instructions([Link](https://stackoverflow.com/questions/2839321/connect-java-to-a-mysql-database))
 
 
 
